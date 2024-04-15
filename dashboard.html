@@ -7,27 +7,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
     <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>DASHBOARD</title>
+    <style>
+
+        body{
+            margin: 0%;
+            padding: 0%;
+            background-color: #F4EBE2;
+        }
+          .container .chart1 .chart2 {
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        .chart-container {
+            width: auto;
+            height: auto;
+            background-color: #fdf7f5;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #421C13;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <body>
+     <h1>Sensor DHT 11 - Umidade</h1>
+     <div class="chart-container">
+        <div class="chart1">
+        <canvas id="dht11Umidade"></canvas>
+    </div>
+    </div>
+    
+    <h1>Sensor DHT 11 - Temperatura</h1> 
+    <div class="chart-container">
+        <div class="chart2">
+        <canvas id="dht11Temperatura"></canvas>
+    </div>
+    </div>
 
-        <h1>Sensor DHT 11 - Umidade</h1>
-        <section style="width:40%";>
-            <canvas id="dht11Umidade"></canvas>
-        </section>
-        <h1>Sensor DHT 11 - Temperatura</h1>
-        <section style="width: 40%;">
-            <canvas id="dht11Temperatura"></canvas>
-        </section>
-        <div style="display: none;">
+    <div style="display: none;">
         <h1>Sensor Chave</h1>
         <section style="width: 100%;">
             <canvas id="chave"></canvas>
         </section>
-        </div>
-   
-
+    </div>
     <script>
         /* -- dht11Umidade -- */
         var contextoDht11Umidade = document.getElementById('dht11Umidade').getContext('2d');
@@ -37,38 +75,47 @@
             contextoDht11Umidade,
             {
                 type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Umidade',
-                        type: 'line',
-                        borderColor: ['blue']
-                        //  backgroundColor: ['nu']
-                    }]
-                },
-                options: {
-                    scales: {
-                        xAxes: [{
-                            distribution: 'series',
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        yAxes: [{
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Umidade'
-                            },
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+        data: {
+            datasets: [{
+                label: 'Umidade',
+                type: 'line',
+                backgroundColor: 'blue'
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    distribution: 'series',
+                    time: {
+                        unit: 'hour',
+                        stepSize: 1,
+                        displayFormats: {
+                            hour: 'HH:mm'
+                        }
                     },
-                    animation: {
-                        duration: 4
+                    ticks: {
+                        beginAtZero: true
                     }
-                }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Umidade'
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        suggestedMax: 60,
+                        suggestedMin: 10
+                    }
+                }]
+            },
+            animation: {
+                duration: 4
             }
-        );
+        }
+    }
+);
         /* -- dht11Temperatura -- */
         var contextoDht11Temperatura = document.getElementById('dht11Temperatura').getContext('2d');
         contextoDht11Temperatura.canvas.width = 1000;
@@ -77,32 +124,41 @@
             contextoDht11Temperatura,
             {
                 type: 'line',
-                data: {
-                    datasets: [{
-                        label: "Temperatura",
-                        type: 'line',
-                        borderColor: ['red'],
-                        // backgroundColor: ['#ff7f7f']
+        data: {
+            labels: [], 
+            datasets: [{
+                label: 'Temperatura',
+                data: [], 
+                type: 'line',
+                backgroundColor: 'red',
+                        
                     }]
                 },
                 options: {
-                    scales: {
-                        xAxes: [{
-                            distribution: 'series',
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }],
-                        yAxes: [{
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Temperatura'
-                            },
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
+            scales: {
+                xAxes: [{
+                    type: 'time', 
+                    distribution: 'linear', 
+                    time: {
+                        unit: 'hour', 
+                        stepSize: 1, 
+                        displayFormats: {
+                            hour: 'HH:mm' 
+                        }
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Temperatura'
                     },
+                    ticks: {
+                        beginAtZero: false, 
+                        suggestedMax: 30, 
+                        suggestedMin: 10 
+                    }
+                }]
+            },
                     animation: {
                         duration: 7
                     }
