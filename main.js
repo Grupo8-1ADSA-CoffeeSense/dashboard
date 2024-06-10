@@ -25,11 +25,11 @@ const serial = async (
         {
             // altere!
             // CREDENCIAIS DO BANCO - MYSQL WORKBENCH
-            host: '10.18.33.180',
+            host: 'localhost',
             user: 'aluno',
-            password: 'Sptech#2024',
-            database: 'cofeesense',
-            port: '3307'
+            password: 'sptech',
+            database: 'CoffeeSense',
+            port: '3306'
         }
     ).promise();
 
@@ -65,11 +65,12 @@ const serial = async (
             // Este insert irá inserir dados de fk_aquario id=1 (fixo no comando do insert abaixo)
             // >> você deve ter o aquario de id 1 cadastrado.
             await poolBancoDados.execute(
-                'INSERT INTO dados_monitoramento (fkDispositivo , umidade, temperatura, data_horaCaptura) VALUES (1,?, ? , now())',
+                'INSERT INTO dados_monitoramento (fkDispositivo , umidade, temperatura, data_horaCaptura) VALUES (4,?, ? , now())',
                 [dht11Umidade, dht11Temperatura]
             );
             console.log("valores inseridos no banco: ", dht11Umidade + ", " + dht11Temperatura)
-
+            
+         
         }
     });
     arduino.on('error', (mensagem) => {
